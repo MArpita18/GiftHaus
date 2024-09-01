@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Product details
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    {% if product %}
+    <div class="row">
+
+        <!--Carousel for Images-->
+        <div class="col-md-6 p-0">
+          <div id="carouselExampleIndicators" class="carousel slide">
+              <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              </div>
+              <div class="carousel-inner">
+                  <div class="carousel-item active">
+                      <img src="{{ product.image.url }}" class="img-fluid" alt="Main Image">
+                  </div>
+                  <div class="carousel-item">
+                      <img src="{{ product.additional_image_1.url }}" class="img-fluid" alt="Additional Image 1">
+                  </div>
+                  <div class="carousel-item">
+                      <img src="{{ product.additional_image_2.url }}" class="img-fluid" alt="Additional Image 2">
+                  </div>
+                  <div class="carousel-item">
+                      <img src="{{ product.additional_image_3.url }}" class="img-fluid" alt="Additional Image 3">
+                  </div>
+              </div>
+      
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="color: red;">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="color: blue;">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+              </button>
+          </div>
+      </div>
+      
+
+        <!--Product Description-->
+
+        <div class="col-md-6 p-2">
+            <h1><strong>{{ product.name }}</strong></h1>
+            <p>Price: <i class="fa-solid fa-indian-rupee-sign"></i>{{ product.price }}</p>
+            <pre>Product details:<br>{{ product.description }}</pre>
+        
+
+            <!--Add to Cart Option-->
+            <div class="my-3">
+                {% if user.is_authenticated %}
+                <form action="{% url 'add_to_cart' %}" method="POST">
+                    {% csrf_token %}
+                    <input type ="hidden" name="product_id" value="{{product.id}}">
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary" onclick="decrement()">-</button>
+                        <input type="text" name="quantity" id ="quantity" value="{{quantity}}" readonly required style="text-align:center; width: 50px;">
+                        <button type="button" class="btn btn-outline-secondary" onclick="increment()">+</button> 
+                        
+                    </div>
+                    <input type="submit" value="Add to Cart" class="btn btn-primary w-100">
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h4 class="my-3 text-center text-danger">No Such Product Found</h4>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block extrajs %}
+<script>
+        let quantity = document.getElementById("quantity")
+    
+        function decrement(){
+            if(quantity.value > 1){
+                quantity.value = Number(quantity.value) - 1
+            }
+        }
+        function increment(){
+            quantity.value = Number(quantity.value) + 1
+        }
+</script>
+{% endblock extrajs %}
+

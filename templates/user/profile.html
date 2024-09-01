@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Profile
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto my-5">
+            <div class="card">
+                <div class="card-body" style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);">
+                    <h4 style="color: #343a40; margin-bottom: 20px;"><strong>Your Profile</strong></h4>
+                    <p style="font-size: 18px;"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p style="font-size: 18px;"><strong>Username:</strong> {{ user.username }}</p>
+                    <p style="font-size: 18px;"><strong>Email:</strong> {{ user.email }}</p>
+                    <p style="font-size: 18px;"><strong>Password:</strong> *****<br><a href="#" style="color: #007bff; text-decoration: none;">Change Password</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

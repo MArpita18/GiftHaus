@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+|| Orders
+{% endblock title %}
+
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            {% for order in orders  %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src ="{{ order.Product.image.url }}" style="width:50px">
+                            </div>
+                            <div class="col-md-3 p-1">
+                                <a href="{% url 'product_details' order.Product.id %}" class = "d-block fw-smibold">{{order.Product.name}}</a>
+                                <p class="mb-1"><b>Quantity: </b>{{order.quantity}}</p>
+                                <p class="mb-1"><b>Price: </b>{{order.price}}</p>
+                            </div> 
+                            <div class="col-md-4 p-1">
+                                <p><b>Delivery Address: </b>{{order.address}}</p>
+                            </div>
+                            <div class="col-md-4 p-1">
+                                <p class ="mb-1"><b>Status: </b>Order {{order.status}}</p>
+                                <div>
+                                    {% if order.status == "Delivered" %}
+                                        <p class ="mb-1">Order is delivered on {{order.updated_at}}.</p>
+                                    {% else %}
+                                        <p class="mb-1">Order is placed on {{order.created_at}}</p>
+                                        <a href="{% url "{% url 'cancel_order' Product.order.id %}" %}" class="btn btn-sm btn-outline-danger rounded-0 d-block">Cancel Order</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
